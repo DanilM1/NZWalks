@@ -2,7 +2,7 @@
 {
     public class WalkDifficulty
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
         public string Code { get; set; }
     }
 }

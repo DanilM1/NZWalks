@@ -24,23 +24,6 @@ namespace NZWalk.API.Controllers
         {
             var regions = await regionRepositry.GetAllAsync();
 
-            // return DTO regions
-            // var regionsDTO = new List<Models.DTO.Region>();
-            // regions.ToList().ForEach(region =>
-            // {
-            // var regionDTO = new Models.DTO.Region()
-            // {
-            // Id = region.Id,
-            // Code = region.Code,
-            // Name = region.Name,
-            // Area = region.Area,
-            // Lat = region.Lat,
-            // Long = region.Long,
-            // Population = region.Population
-            // };
-            // regionsDTO.Add(regionDTO);
-            // });
-
             var regionsDTO = mapper.Map<List<Models.DTO.Region>>(regions);
 
             return Ok(regionsDTO);
@@ -120,18 +103,7 @@ namespace NZWalk.API.Controllers
 
             if (region == null) return NotFound();
 
-            var regionDTO = new Models.DTO.Region
-            {
-                Id = region.Id,
-                Code = region.Code,
-                Name = region.Name,
-                Area = region.Area,
-                Lat = region.Lat,
-                Long = region.Long,
-                Population = region.Population
-            };
-
-            return Ok(regionDTO);
+            return Ok(mapper.Map<Models.DTO.Region>(region));
         }
     }
 }
