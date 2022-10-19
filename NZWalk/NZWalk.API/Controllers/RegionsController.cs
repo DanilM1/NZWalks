@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NZWalk.API.Repositories;
 
@@ -18,6 +19,7 @@ namespace NZWalk.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="reader")]
         public async Task<IActionResult> GetAllRegionsAsync()
         {
             var regions = await regionRepositry.GetAllAsync();
@@ -30,6 +32,7 @@ namespace NZWalk.API.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetRegionAsync")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetRegionAsync(Guid id)
         {
             var region = await regionRepositry.GetAsync(id);
@@ -41,10 +44,11 @@ namespace NZWalk.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
         {
             // Validate The Request
-            if (!ValidateAddRegionAsync(addRegionRequest)) return BadRequest(ModelState);
+            // if (!ValidateAddRegionAsync(addRegionRequest)) return BadRequest(ModelState);
 
             // Request(DTO) to Domain model
             var region = new Models.Domain.Region()
@@ -77,6 +81,7 @@ namespace NZWalk.API.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> DeleteRegionAsync(Guid id)
         {
             var region = await regionRepositry.DeleteAsync(id);
@@ -88,10 +93,11 @@ namespace NZWalk.API.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid id, [FromBody] Models.DTO.UpdateRegionRequest updateRegionRequest)
         {
             // Validate The Request
-            if (!ValidateUpdateRegionAsync(updateRegionRequest)) return BadRequest(ModelState);
+            // if (!ValidateUpdateRegionAsync(updateRegionRequest)) return BadRequest(ModelState);
 
             var region = new Models.Domain.Region()
             {

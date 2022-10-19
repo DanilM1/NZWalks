@@ -12,10 +12,5 @@ namespace NZWalk.API.Data
         public DbSet<Region> Regions { get; set; }
         public DbSet<Walk> Walks { get; set; }
         public DbSet<WalkDifficulty> WalkDifficulty { get; set; }
-
-        internal Task RemoveAsync(Models.DTO.Region region)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

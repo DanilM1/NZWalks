@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NZWalk.API.Models.DTO;
 using NZWalk.API.Repositories;
+using System.Data;
 
 namespace NZWalk.API.Controllers
 {
@@ -19,6 +21,7 @@ namespace NZWalk.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetAllWalkDifficultiesAsync()
         {
             var walkDifficulties = await walkDifficultyRepositry.GetAllAsync();
@@ -33,6 +36,7 @@ namespace NZWalk.API.Controllers
         [HttpGet]
         [Route("{id:guid}")]
         [ActionName("GetWalkDifficultyAsync")]
+        [Authorize(Roles = "reader")]
         public async Task<IActionResult> GetWalkDifficultyAsync(Guid id)
         {
             var walkDifficulty = await walkDifficultyRepositry.GetAsync(id);
@@ -44,10 +48,11 @@ namespace NZWalk.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> AddWalkDifficultyAsync(Models.DTO.AddWalkDifficultyRequest addWalkDifficultyRequest)
         {
             // Validate The Request
-            if (!ValidateAddWalkDifficultyAsync(addWalkDifficultyRequest)) return BadRequest(ModelState);
+            // if (!ValidateAddWalkDifficultyAsync(addWalkDifficultyRequest)) return BadRequest(ModelState);
 
             // Request(DTO) to Domain model
             var walkDifficulty = new Models.Domain.WalkDifficulty()
@@ -70,6 +75,7 @@ namespace NZWalk.API.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> DeleteWalkDifficultyAsync(Guid id)
         {
             var walkDifficulty = await walkDifficultyRepositry.DeleteAsync(id);
@@ -81,10 +87,11 @@ namespace NZWalk.API.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateWalkDifficultyAsync([FromRoute] Guid id, [FromBody] Models.DTO.UpdateWalkDifficultyRequest updateWalkDifficultyRequest)
         {
             // Validate The Request
-            if (!ValidateUpdateWalkDifficultyAsync(updateWalkDifficultyRequest)) return BadRequest(ModelState);
+            // if (!ValidateUpdateWalkDifficultyAsync(updateWalkDifficultyRequest)) return BadRequest(ModelState);
 
             var walkDifficulty = new Models.Domain.WalkDifficulty()
             {
