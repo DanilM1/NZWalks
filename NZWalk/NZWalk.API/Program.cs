@@ -53,7 +53,7 @@ builder.Services.AddScoped<IWalkDifficultyRepositry, WalkDifficultyRepositry>();
 
 builder.Services.AddScoped<ITokenHandler, NZWalk.API.Repositories.TokenHandler>();
 
-builder.Services.AddSingleton<IUserRepositry, StaticUserRepositry>();
+builder.Services.AddScoped<IUserRepositry, UserRepositry>();
 
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
